@@ -10,20 +10,22 @@
         <link rel="stylesheet" href="/static/style.css" >
     </head>
     <body>
+        <!-- Message displayed on booking to say success or failure -->
         {% if message %}
         <p>{{message}}</p>
         {% endif %}
+
         <h1>Listing {{listing.title}}</h1>
         <p>Description: {{listing.description}}</p>
         <p>Price: £{{listing.price}}</p>
         <form action="" method="post">
             <p>
                 <label for="date_from">Date from</label>
-                <input type="date" name="date_from" id="date_from">
+                <input type="date" name="date_from" required id="date_from">
             </p>
             <p>
                 <label for="date_to">Date to</label>
-                <input type="date" name="date_to" id="date_to">
+                <input type="date" name="date_to" required id="date_to">
             </p>
             <input type = "hidden" name="listing_id" value={{listing.id}}>
             <p><input type="submit" value="Submit"></p>
