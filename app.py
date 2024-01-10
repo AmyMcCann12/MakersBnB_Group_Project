@@ -78,7 +78,17 @@ def request_page():
     id = request.args['id']
     return render_template('requests.html', id=id)
 
-
+@app.route('/listing/request', methods=['POST'])
+def submit_request():
+    #date_from = request.form['date_from']
+    #date_to = request.form['date_to']
+    #user_id = request.args['id']
+    #listing_id = request.form['listing_id']
+    # Add request to requests table
+    # if date_from and date_to in request_table:
+    # if True:
+    message = "Date is not available"
+    return render_template('listing.html', message=message)
 
 #ROBERT AND HARRY'S CODE
 @app.route('/create', methods=['GET'])
