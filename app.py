@@ -91,21 +91,27 @@ def submit_request(id):
     list_repo = ListingRepository(connection)
     booking = Request(None, date_from, date_to, user_id, listing_id, confirmed=True)
     listing = list_repo.select(id)
-    success = False
+    # Run check to see if date available then run if block
+    success = True
     if success:
-        message = 'Booking completed'
-        req_repo.create_request(booking)
-        return render_template('listing.html', message=message, listing=listing)
+        # message = 'Booking completed'
+        booking = req_repo.create_request(booking)
+        return redirect(f'/your_booking/{booking.id}')
     else:
         message = 'Book failed'
         return render_template('listing.html', message=message, listing=listing)
 
-    # Add request to requests table
-    # if date_from and date_to in request_table:
-    # if True:
-    # message = "Date is not available"
-    # return render_template('listing.html', message=message)
-
+@app.route('/your_booking/<int:id>', methods=['GET'])
+def your_booking(id):
+    connection = get_flask_database_connection(app)
+    list_repo = ListingRepository(connection)
+    req_repo = RequestRepository(connection)
+    booking = req_repo.get_single_requests(id)
+    listing = list_repo.select(booking.listing_id)
+    # Working out the total price of the booking
+    total_days = booking.date_to - booking.date_from
+    cost = "{:.2f}".format(total_days.days * listing.price)
+    return render_template('booking_success.html', listing=listing, booking=booking, cost=cost)
 
 #ROBERT AND HARRY'S CODE
 @app.route('/create', methods=['GET'])
