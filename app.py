@@ -5,6 +5,8 @@ from lib.sign_up import *
 from lib.user import *
 from lib.listing import *
 from lib.listing_repository import *
+from lib.request_repository import RequestRepository
+from lib.request import Request
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -78,17 +80,32 @@ def request_page():
     id = request.args['id']
     return render_template('requests.html', id=id)
 
-@app.route('/listing/request', methods=['POST'])
-def submit_request():
-    #date_from = request.form['date_from']
-    #date_to = request.form['date_to']
-    #user_id = request.args['id']
-    #listing_id = request.form['listing_id']
+@app.route('/listing/<int:id>', methods=['POST'])
+def submit_request(id):
+    connection = get_flask_database_connection(app)
+    date_from = request.form['date_from']
+    date_to = request.form['date_to']
+    user_id = request.args['id']
+    listing_id = request.form['listing_id']
+    req_repo = RequestRepository(connection)
+    list_repo = ListingRepository(connection)
+    booking = Request(None, date_from, date_to, user_id, listing_id, confirmed=True)
+    listing = list_repo.select(id)
+    success = False
+    if success:
+        message = 'Booking completed'
+        req_repo.create_request(booking)
+        return render_template('listing.html', message=message, listing=listing)
+    else:
+        message = 'Book failed'
+        return render_template('listing.html', message=message, listing=listing)
+
     # Add request to requests table
     # if date_from and date_to in request_table:
     # if True:
-    message = "Date is not available"
-    return render_template('listing.html', message=message)
+    # message = "Date is not available"
+    # return render_template('listing.html', message=message)
+
 
 #ROBERT AND HARRY'S CODE
 @app.route('/create', methods=['GET'])
@@ -113,12 +130,10 @@ def get_listing(id):
     connection = get_flask_database_connection(app)
     repo = ListingRepository(connection)
     listing = repo.select(id)
-    return render_template('listing.html', listing = listing)
-
+    return render_template('listing.html', listing=listing)
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
 # if started in test mode.
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5000)))
-
