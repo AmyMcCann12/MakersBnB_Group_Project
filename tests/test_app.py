@@ -142,5 +142,17 @@ def test_show_listing_and_show_individual_listing(page, test_web_address, db_con
     page.click("text=Book a space")
     strong_tag = page.locator('h1')
     expect(strong_tag).to_have_text("Book your space")
-    listing2 = page.locator('li')
-    
+    list_items = page.locator('li')
+    expect(list_items).to_contain_text([
+        'First Listing',
+        'Second Listing',
+        'Third Listing',
+        'Fourth Listing'
+    ])
+    page.click("text=First Listing")
+    listing_title = page.locator('h1')
+    expect(listing_title).to_have_text('Listing First Listing')
+    # price_tag = page.locator('p:nth-of-type(2)')
+    # print(price_tag)
+    # expect(price_tag).to_have_text('Price: £0.79')
+    expect(page.get_by_text('Price: £0.79')).to_be_visible()
