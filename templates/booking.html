@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a space!</title>
+    <link rel="stylesheet" href="/static/style.css" >
 </head>
 <body>
     {% if id %}
-    <h1>Book your space</h1>
-    <p>User id is: {{id}}</p>
-    <ul> 
-        {% for listing in listings %}
-        <li> 
-            <a href="/listing/{{listing.id}}"> {{listing.title}}</a>
-        </li>
-        {%endfor %}
-    </ul>
+    <div id="Heading">
+        <h1>Book your space</h1>
+        <p>This is the description. Do not read!</p>
+    </div>
+    <div id="structureBooking">
+        <div id="OuterBox"> 
+            {% for listing in listings %}
+            <a href="/listing/{{listing.id}}"> 
+                <div id="InnerBox">
+                <h2> {{listing.title}}</h2>
+                <p>{{listing.description}}</p>
+            </div></a>
+            {%endfor %}
+        </div>
+    </div> 
     {% else %}
         <div> Please log in to view content </div>
         <a href="/login">Login page</a>

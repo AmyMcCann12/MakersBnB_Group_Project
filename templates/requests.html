@@ -8,16 +8,26 @@
 </head>
 <body>
     {% if id %}
-    <h1>Requests</h1>
-    <div id="MainDivrequests">
-        <div id="div1Requests">
+    <h1 id="Heading">Requests</h1>
+    <p id="Heading">This is a description for the requests page</p>
+    <div id="test">
+        <div class="column">
             <h2>Requests I've made</h2>
-            <p>request1 for this user id: {{id}}</p>
         </div>
-        <div id="div2Requests">
+        <div class="column">
             <h2>Requests I've received</h2>
-            <p>request1</p>
         </div>
+    </div>
+    <div id="MainDivrequests">
+        
+        <div id="div1Requests">  
+            <div id="InnerBox">
+            <p>request1 for this user id: {{id}}</p>
+        </div></div>
+        <div id="div2Requests">
+            <div id="InnerBox">
+            <p>request1</p>
+        </div></div>
     </div>
     {% else %}
         <div> Please log in to view content </div>
