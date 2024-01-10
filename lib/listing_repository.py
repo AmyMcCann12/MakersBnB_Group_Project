@@ -5,14 +5,15 @@ class ListingRepository:
     
     def get(self):
         rows = self.connection.execute('SELECT * FROM listings')
-        return [Listing(listing['id'], listing['title'], listing['description'], listing['price']) for listing in rows]
+        return [Listing(listing['id'], listing['title'], listing['description'], listing['price'], listing['user_id']) for listing in rows]
     
     def select(self, id):
         rows = self.connection.execute('SELECT * FROM listings WHERE id = %s', [id])
-        return Listing(rows[0]['id'], rows[0]['title'], rows[0]['description'], rows[0]['price'])
+        return Listing(rows[0]['id'], rows[0]['title'], rows[0]['description'], rows[0]['price'], rows[0]['user_id'])
     
+    #ONCE THIS IS READY REFERENCE THE USER ID
     def insert(self, listing):
-        rows = self.connection.execute('INSERT INTO listings (title, description, price) VALUES (%s, %s, %s) RETURNING id', [listing.title, listing.description, listing.price])
+        rows = self.connection.execute('INSERT INTO listings (title, description, price, user_id) VALUES (%s, %s, %s, %s) RETURNING id', [listing.title, listing.description, listing.price, listing.user_id])
         listing.id = rows[0]['id']
         return listing
 

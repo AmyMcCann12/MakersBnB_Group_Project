@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, render_template, redirect
 from lib.database_connection import get_flask_database_connection
 from lib.sign_up import *
+from lib.user import *
 from lib.listing import *
 from lib.listing_repository import *
 
@@ -32,13 +33,7 @@ def submit_signup():
     name = request.form['name']
     email = request.form['email']
     password = request.form['password']
-    if email == "":
-        message="Please fill in your email"
-        return render_template('login.html', message=message)
-    if password == "":
-        message="Please fill in your password"
-        return render_template('login.html', message=message)
-    userRepo.create(email, password)
+    userRepo.create(name, email, password)
     return render_template('login.html', name=name, email=email, password=password)
 
 @app.route('/login', methods=['GET'])
@@ -54,7 +49,8 @@ def submit_login():
     checker = userRepo.check_password(email, password)
     if checker:
         id = userRepo.get_userid(email, password)
-        return render_template('loggedin.html', id=id, email=email, password=password)
+        name = userRepo.get_username(email, password)
+        return render_template('loggedin.html', id=id, name = name, email=email, password=password)
     else:
         message = "Incorrect details" 
         return render_template('login.html', message = message)
@@ -97,11 +93,12 @@ def post_data():
     title = request.form['title']
     description = request.form['description']
     price = request.form['price']
-    listing = Listing(None, title, description, price)
+    user_id = request.args['id']
+    listing = Listing(None, title, description, price, user_id)
     listing = repo.insert(listing)
-    return redirect(f'/listings/{listing.id}')
+    return redirect(f'/listing/{listing.id}')
 
-@app.route('/listings/<int:id>', methods=['GET'])
+@app.route('/listing/<int:id>', methods=['GET'])
 def get_listing(id):
     connection = get_flask_database_connection(app)
     repo = ListingRepository(connection)

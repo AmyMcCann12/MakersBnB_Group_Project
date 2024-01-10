@@ -5,15 +5,15 @@ class UserRepository:
     def __init__(self, connection):
         self._connection = connection
 
-    def create(self, email, password):
+    def create(self, name, email, password):
         # Hash the password
         binary_password = password.encode("utf-8")
         hashed_password = hashlib.sha256(binary_password).hexdigest()
 
         # Store the email and hashed password in the database
         self._connection.execute(
-            'INSERT INTO users (email, password) VALUES (%s, %s)',
-            [email, hashed_password])
+            'INSERT INTO users (name, email, password) VALUES (%s, %s, %s)',
+            [name, email, hashed_password])
         
         #def generate_errors(self):
         #errors = []
@@ -35,10 +35,19 @@ class UserRepository:
             'SELECT id FROM users WHERE email = %s AND password = %s',
             [email, hashed_password_attempt])[0]
         User_ID = User_ID.get('id')
-
+        
         return User_ID
 
+    def get_username(self, email, password_attempt):
+        binary_password_attempt = password_attempt.encode("utf-8")
+        hashed_password_attempt = hashlib.sha256(binary_password_attempt).hexdigest()
 
+        name = self._connection.execute(
+            'SELECT name FROM users WHERE email = %s AND password = %s',
+            [email, hashed_password_attempt])[0]
+        name =name.get('name')
+
+        return name
 
     def check_password(self, email, password_attempt):
         # Hash the password attempt

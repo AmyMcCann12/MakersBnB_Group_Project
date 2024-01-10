@@ -12,6 +12,7 @@ class TestUserRepository(unittest.TestCase):
         self.user_repository = UserRepository(self.mock_connection)
 
     def test_create_user(self):
+        name = "name"
         email = "test@example.com"
         password = "password123"
 
@@ -21,12 +22,12 @@ class TestUserRepository(unittest.TestCase):
             mock_hexdigest.return_value = "hashed_password"
 
             # Calling the create method
-            self.user_repository.create(email, password)
+            self.user_repository.create(name, email, password)
 
             # Verifying that the execute method was called with the correct arguments
             self.mock_connection.execute.assert_called_once_with(
-                'INSERT INTO users (email, password) VALUES (%s, %s)',
-                [email, "hashed_password"])
+                'INSERT INTO users (name, email, password) VALUES (%s, %s, %s)',
+                [name, email, "hashed_password"])
 
     def test_check_password(self):
         email = "test@example.com"
@@ -73,3 +74,26 @@ class TestUserRepository(unittest.TestCase):
 
             # Verifying that the method returns False when the password is incorrect
             self.assertFalse(result)
+
+    def test_get_userId(self):
+        email = "test@example.com"
+        password_attempt = "password123"
+
+        # Mocking hashlib.sha256 for consistent hashing in the test
+        with patch('hashlib.sha256') as mock_sha256:
+            mock_hexdigest = mock_sha256.return_value.hexdigest
+            mock_hexdigest.return_value = "hashed_password_attempt"
+
+            # Mocking the execute method to return a row for the SELECT statement
+            self.mock_connection.execute.return_value = [{'id': 4}]
+
+            # Calling the check_password method
+            result = self.user_repository.get_userid(email, password_attempt)
+
+            # Verifying that the execute method was called with the correct arguments
+            self.mock_connection.execute.assert_called_once_with(
+                'SELECT id FROM users WHERE email = %s AND password = %s',
+                [email, "hashed_password_attempt"])
+
+            # Verifying that the method returns True when the password is correct
+            assert result == 4

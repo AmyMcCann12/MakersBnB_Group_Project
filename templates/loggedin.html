@@ -10,11 +10,11 @@
         <link rel="stylesheet" href="/static/style.css" >
     </head>
     <body>
-        <h1>Welcome (name of user) </h1>
+        <h1>Welcome {{name}}!</h1>
         <p style="width: 100%;">Logged in homepage</p>
         <div id="mainDivHomepage">
             <div id="rowHomepage"><a href="/book?id={{id}}"><h1>Book a space</h1></a></div>
-            <div id="rowHomepage"><a href ="/create?id={{id}}"><h1>List a space</h1></a></div>
+            <div id="rowHomepage"><a href="/create?id={{id}}"><h1>List a space</h1></a></div>
             <div id="rowHomepage"><a href="/requests?id={{id}}"><h1>View requests</h1></a></div>
         </div>
     </body>

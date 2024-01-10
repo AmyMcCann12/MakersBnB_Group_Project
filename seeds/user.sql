@@ -9,11 +9,12 @@ DROP SEQUENCE IF EXISTS users_id_seq;
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255)
 );
 -- Finally, we add any records that are needed for the tests to run
-INSERT INTO users (email, password) VALUES ('hello@gmail.com', '7a3d5ed42db8e77d91a838e6ad6b45cf68caf8e5aa5afbe0f65a0eceb431cafa')
+INSERT INTO users (name, email, password) VALUES ('name', 'hello@gmail.com', '7a3d5ed42db8e77d91a838e6ad6b45cf68caf8e5aa5afbe0f65a0eceb431cafa')
 
 -- testpassword1 (for hello@gmail.com)
 
