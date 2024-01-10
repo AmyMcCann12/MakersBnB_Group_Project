@@ -1,20 +1,27 @@
-
+-- The job of this file is to reset all of our important database tables.
+-- And add any data that is needed for the tests to run.
+-- This is so that our tests, and application, are always operating from a fresh
+-- database state, and that tests don't interfere with each other.
+-- First, we must delete (drop) all our tables
 DROP TABLE IF EXISTS requests;
-
 DROP SEQUENCE IF EXISTS requests_id_seq;
-
+-- Then, we recreate them
 CREATE SEQUENCE IF NOT EXISTS requests_id_seq;
-
-CREATE TABLE requests(
-
-    id SERIAL PRIMARY KEY, 
-    date_from date, 
-    date_to date,
+CREATE TABLE requests (
+    id SERIAL PRIMARY KEY,
+    date_from DATE,
+    date_to DATE,
     user_id int,
     listing_id int,
     confirmed boolean
+    -- constraint fk_user foreign key(user_id) references users(id) on delete cascade,
+    -- constraint fk_listing foreign key(listing_id) references listings(id) on delete cascade,
 );
+-- Finally, we add any records that are needed for the tests to run
+INSERT INTO requests (date_from, date_to, user_id, listing_id, confirmed) VALUES ('2024-04-03', '2024-04-10', '1', '3', 'true');
+INSERT INTO requests (date_from, date_to, user_id, listing_id, confirmed) VALUES ('2024-03-20', '2024-03-27', '1', '3', 'true');
 
--- ONCE THIS IS READY REFERENECE THE USER ID
-INSERT INTO requests (date_from, date_to, user_id, listing_id, confirmed) VALUES (2024-01-10, 2024-01-17, 1, 1, True);
-INSERT INTO requests (date_from, date_to, user_id, listing_id, confirmed) VALUES (2024-02-02, 2024-02-06, 2, 1, True);
+
+
+
+
