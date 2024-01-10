@@ -113,7 +113,7 @@ def test_get_create_page_and_create_list_redirects(page, test_web_address, db_co
     page.click("text=submit")
     #Click on List a Space
     page.click("text=List a space")
-     #Check h1 tag
+    #Check h1 tag
     strong_tag = page.locator("h1")
     expect(strong_tag).to_have_text("Create a Listing")
     #Fill in Create a Space Form
@@ -128,3 +128,19 @@ def test_get_create_page_and_create_list_redirects(page, test_web_address, db_co
 
 # Need to add a test to get to a listing when logged in 
 # (once authentication has been added to listing pages)
+    
+def test_show_listing_and_show_individual_listing(page, test_web_address, db_connection):
+    db_connection.seed("seeds/user.sql")
+    db_connection.seed("seeds/listings.sql")
+    page.goto(f'http://{test_web_address}/login')
+    #Sign In
+    page.fill("input[name = 'email']", "hello@gmail.com")
+    page.fill("input[name = 'password']", "testpassword1")
+    #Submit Details
+    page.click("text=submit")
+    # Click on Book a space
+    page.click("text=Book a space")
+    strong_tag = page.locator('h1')
+    expect(strong_tag).to_have_text("Book your space")
+    listing2 = page.locator('li')
+    
