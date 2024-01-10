@@ -128,3 +128,73 @@ def test_get_create_page_and_create_list_redirects(page, test_web_address, db_co
 
 # Need to add a test to get to a listing when logged in 
 # (once authentication has been added to listing pages)
+    
+
+# Given I login and navigate to a listing I can complete a booking request form
+# On success I am taking to a booking confirmation page
+def test_make_successful_booking_request(page, test_web_address, db_connection):
+    db_connection.seed('seeds/user.sql')
+    db_connection.seed('seeds/listings.sql')
+    db_connection.seed('seeds/requests.sql')
+    page.goto(f"http://{test_web_address}/login")
+    #Sign In
+    page.fill("input[name = 'email']", "hello@gmail.com")
+    page.fill("input[name = 'password']", "testpassword1")
+    #Submit Details
+    page.click("text=submit")
+    # Click on Book a space
+    page.click("text=Book a space")
+    strong_tag = page.locator('h1')
+    expect(strong_tag).to_have_text("Book your space")
+    list_items = page.locator('li')
+    expect(list_items).to_contain_text([
+        'First Listing',
+        'Second Listing',
+        'Third Listing',
+        'Fourth Listing'
+    ])
+    page.click('text=First Listing')
+    listing_title = page.locator('h1')
+    expect(listing_title).to_have_text('Listing First Listing')
+    date_from_field = page.locator('#date_from')
+    date_from_field.fill('2024-12-05')
+    date_to_field = page.locator('#date_to')
+    date_to_field.fill('2024-12-10')
+    page.click('text=submit')
+    booking_header = page.locator('h1')
+    expect(booking_header).to_have_text('Your Booking')
+    cost = page.get_by_text('£')
+    expect(cost).to_have_text('£3.95')
+
+# Given I login and navigate to a listing I can complete a booking request form
+# If the dates are not available I am shown an error message
+def test_make_unsuccessful_booking_request(page, test_web_address, db_connection):
+    db_connection.seed('seeds/user.sql')
+    db_connection.seed('seeds/listings.sql')
+    db_connection.seed('seeds/requests.sql')
+    page.goto(f"http://{test_web_address}/login")
+    #Sign In
+    page.fill("input[name = 'email']", "hello@gmail.com")
+    page.fill("input[name = 'password']", "testpassword1")
+    #Submit Details
+    page.click("text=submit")
+    # Click on Book a space
+    page.click("text=Book a space")
+    strong_tag = page.locator('h1')
+    expect(strong_tag).to_have_text("Book your space")
+    list_items = page.locator('li')
+    expect(list_items).to_contain_text([
+        'First Listing',
+        'Second Listing',
+        'Third Listing',
+        'Fourth Listing'
+    ])
+    page.click('text=Third Listing')
+    listing_title = page.locator('h1')
+    expect(listing_title).to_have_text('Listing Third Listing')
+    date_from_field = page.locator('#date_from')
+    date_from_field.fill('2024-03-25')
+    date_to_field = page.locator('#date_to')
+    date_to_field.fill('2024-04-02')
+    page.click('text=submit')
+    expect(page.get_by_text('Booking failed.')).to_be_visible()
