@@ -92,13 +92,11 @@ def submit_request(id):
     booking = Request(None, date_from, date_to, user_id, listing_id, confirmed=True)
     listing = list_repo.select(id)
     # Run check to see if date available then run if block
-    success = True
-    if success:
-        # message = 'Booking completed'
+    if req_repo.check_dates(date_from, date_to, listing_id):
         booking = req_repo.create_request(booking)
         return redirect(f'/your_booking/{booking.id}')
     else:
-        message = 'Book failed'
+        message = 'Booking failed. Dates not available.'
         return render_template('listing.html', message=message, listing=listing)
 
 @app.route('/your_booking/<int:id>', methods=['GET'])
