@@ -18,7 +18,5 @@ class Request:
     
     def calculate_cost(self, price):
         number_of_nights = self.date_to - self.date_from
-        print(number_of_nights)
         cost = number_of_nights.days * price
-        print(cost)
         return cost
