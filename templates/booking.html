@@ -12,7 +12,7 @@
     <ul> 
         {% for listing in listings %}
         <li> 
-            <a href="/listing/{{listing.id}}"> {{listing.title}}</a>
+            <a href="/listing/{{listing.id}}?id={{id}}"> {{listing.title}}</a>
         </li>
         {%endfor %}
     </ul>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Booking</title>
+</head>
+<body>
+    <div>
+        <h1>Your Booking</h1>
+        <div>
+            <h2>{{listing.title}}</h2>
+            <p>{{listing.description}}</p>
+        </div>
+        <div>
+            <h2>Your Trip Details</h2>
+            <p>Start Date: {{booking.date_from}}</p>
+            <p>End Date: {{booking.date_to}}</p>
+            <h3>Total Price:</h3>
+            <p>£{{cost}}</p>
+        </div>
+        <a href="/loggedin"><button>Home</button></a>
+    </div>
+</body>
+</html>
