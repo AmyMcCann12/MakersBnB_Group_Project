@@ -1,5 +1,6 @@
 from lib.request import *
-import datetime
+from datetime import datetime, timedelta
+
 
 class RequestRepository:
     def __init__(self, connection):
@@ -53,11 +54,14 @@ class RequestRepository:
             for row in rows: 
                 reserved_start_date = row['date_from']
                 reserved_end_date = row['date_to']
-                current_date_check = date_from
-                while is_available == True and current_date_check <= date_to:
+                print(date_from)
+                current_date_check = datetime.strptime(date_from, '%Y-%m-%d').date()
+                print(type(reserved_end_date))
+                print(type(current_date_check))
+                while is_available == True and current_date_check <= datetime.strptime(date_to, '%Y-%m-%d').date():
                     if reserved_start_date <= current_date_check < reserved_end_date:
                         is_available = False
-                    current_date_check += datetime.timedelta(days=1)
+                    current_date_check += timedelta(days=1)
             return is_available
         else:
             return True
