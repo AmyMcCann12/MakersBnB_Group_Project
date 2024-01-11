@@ -5,7 +5,7 @@ def test_request_constructs():
     assert request.id == 0
     assert request.date_from == '2024-02-01'
     assert request.date_to == '2024-02-08'
-    assert request.user_id == 1
+    assert request.requester_user_id == 1
     assert request.listing_id == 4
     assert request.confirmed == True
 

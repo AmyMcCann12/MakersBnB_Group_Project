@@ -6,7 +6,7 @@ def test_listing_constructs():
     assert listing.title == "Title"
     assert listing.description == "Desc"
     assert listing.price == 1
-    assert listing.user_id == 4
+    assert listing.host_user_id == 4
 
 def test_format():
     listing = Listing(0, "Title", "Desc", 1, 1)

@@ -1,9 +1,9 @@
 class Request:
-    def __init__(self, id, date_from, date_to, user_id, listing_id, status='pending'):
+    def __init__(self, id, date_from, date_to, requester_user_id, listing_id, status='pending'):
         self.id = id
         self.date_from = date_from
         self.date_to = date_to
-        self.user_id = user_id
+        self.requester_user_id = requester_user_id
         self.listing_id = listing_id
         self.status = status
 
