@@ -1,4 +1,6 @@
 from lib.request import *
+from datetime import datetime, timedelta
+
 
 class RequestRepository:
     def __init__(self, connection):
@@ -22,3 +24,22 @@ class RequestRepository:
     
     def update_dates(self, id, date_from, date_to):
         self.connection.execute('UPDATE requests SET date_from = %s, date_to = %s WHERE id = %s', [date_from, date_to, id])
+
+    def check_dates(self, date_from, date_to, listing_id):
+        rows = self.connection.execute('SELECT * FROM requests WHERE listing_id = %s', [listing_id])
+        if rows != []:
+            is_available = True
+            for row in rows: 
+                reserved_start_date = row['date_from']
+                reserved_end_date = row['date_to']
+                print(date_from)
+                current_date_check = datetime.strptime(date_from, '%Y-%m-%d').date()
+                print(type(reserved_end_date))
+                print(type(current_date_check))
+                while is_available == True and current_date_check <= datetime.strptime(date_to, '%Y-%m-%d').date():
+                    if reserved_start_date <= current_date_check < reserved_end_date:
+                        is_available = False
+                    current_date_check += timedelta(days=1)
+            return is_available
+        else:
+            return True

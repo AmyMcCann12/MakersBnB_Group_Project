@@ -15,7 +15,7 @@
     <div id="structureBooking">
         <div id="OuterBox"> 
             {% for listing in listings %}
-            <a href="/listing/{{listing.id}}"> 
+            <a href="/listing/{{listing.id}}?id={{id}}"> 
                 <div id="InnerBox">
                 <h2> {{listing.title}}</h2>
                 <p>{{listing.description}}</p>

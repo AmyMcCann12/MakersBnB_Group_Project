@@ -5,6 +5,8 @@ from lib.sign_up import *
 from lib.user import *
 from lib.listing import *
 from lib.listing_repository import *
+from lib.request_repository import RequestRepository
+from lib.request import Request
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -78,7 +80,36 @@ def request_page():
     id = request.args['id']
     return render_template('requests.html', id=id)
 
+@app.route('/listing/<int:id>', methods=['POST'])
+def submit_request(id):
+    connection = get_flask_database_connection(app)
+    date_from = request.form['date_from']
+    date_to = request.form['date_to']
+    user_id = request.args['id']
+    listing_id = request.form['listing_id']
+    req_repo = RequestRepository(connection)
+    list_repo = ListingRepository(connection)
+    booking = Request(None, date_from, date_to, user_id, listing_id, confirmed=True)
+    listing = list_repo.select(id)
+    # Run check to see if date available then run if block
+    if req_repo.check_dates(booking.date_from, booking.date_to, listing_id):
+        booking = req_repo.create_request(booking)
+        return redirect(f'/your_booking/{booking.id}')
+    else:
+        message = 'Booking failed. Dates not available.'
+        return render_template('listing.html', message=message, listing=listing)
 
+@app.route('/your_booking/<int:id>', methods=['GET'])
+def your_booking(id):
+    connection = get_flask_database_connection(app)
+    list_repo = ListingRepository(connection)
+    req_repo = RequestRepository(connection)
+    booking = req_repo.get_single_requests(id)
+    listing = list_repo.select(booking.listing_id)
+    # Working out the total price of the booking
+    total_days = booking.date_to - booking.date_from
+    cost = "{:.2f}".format(total_days.days * listing.price)
+    return render_template('booking_success.html', listing=listing, booking=booking, cost=cost)
 
 #ROBERT AND HARRY'S CODE
 @app.route('/create', methods=['GET'])
@@ -118,4 +149,3 @@ def your_spaces():
 # if started in test mode.
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5000)))
-
