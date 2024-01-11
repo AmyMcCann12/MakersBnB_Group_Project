@@ -91,7 +91,7 @@ def submit_request(id):
     listing_id = request.form['listing_id']
     req_repo = RequestRepository(connection)
     list_repo = ListingRepository(connection)
-    booking = Request(None, date_from, date_to, user_id, listing_id, confirmed=True)
+    booking = Request(None, date_from, date_to, user_id, listing_id, status="pending")
     listing = list_repo.select(id)
     # if user_id == listing.user_id:
         
