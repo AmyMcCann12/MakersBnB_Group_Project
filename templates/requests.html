@@ -13,10 +13,11 @@
         <div id="div1Requests">
             <h2>Requests I've made</h2>
             {% for i in requests %}
-                <p>{{i.title}}</p>
-                <p>Check-in {{i.date_from}}</p>
-                <p>Checkout {{i.date_to}}</p>
-                <p>Cost: {{i.price}}</p>
+                <h3>{{i.listing.title}}</h3>
+                <p>Check-in: {{i.date_from}}</p>
+                <p>Check-out: {{i.date_to}}</p>
+                <p>Cost: {{i.calculate_cost(i.listing.price)}}</p>
+                <br>
             {% endfor %}
         </div>
         <div id="div2Requests">

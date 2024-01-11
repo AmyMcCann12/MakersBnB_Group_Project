@@ -1,6 +1,6 @@
 from lib.request import *
 from datetime import datetime, timedelta
-
+from lib.listing import Listing
 
 class RequestRepository:
     def __init__(self, connection):
@@ -25,31 +25,20 @@ class RequestRepository:
     def update_dates(self, id, date_from, date_to):
         self.connection.execute('UPDATE requests SET date_from = %s, date_to = %s WHERE id = %s', [date_from, date_to, id])
 
-    # def get_host_id(self, id):
-        # Get host_id from listing
-        # request = self.get_single_requests(id)
-        # request.listing_id
-        # execute( get listing with listing_id )
-        # listing_repo.get_listing()
-        # JOIN requests and ??? requests has host_user_id
-
-        # rows = self.connection.execute('SELECT listings.user_id as host_user_id, ')
-
+    def find_with_listing(self, loggedin_user_id):
+        # 
+        pass
+        
     def get_requests_I_made(self, loggedin_user_id):
         # Retrieve requests I have made to other books]
-        rows = self.connection.execute('SELECT requests.date_from, requests.date_to, requests.status, listings.title, listings.price ' \
+        rows = self.connection.execute('SELECT requests.id as request_id, requests.date_from, requests.date_to, requests.user_id as requester_user_id, requests.status, listings.id as listing_id, listings.title, listings.description, listings.price, listings.user_id as host_user_id ' \
                                         ' FROM requests ' \
                                         ' JOIN listings ON requests.listing_id = listings.id ' \
                                         ' WHERE requests.user_id = %s', [loggedin_user_id])
         requests = []
         for row in rows:
-            request = {
-                'date_from': row['date_from'],
-                'date_to': row['date_to'],
-                'status': row['status'],
-                'title': row['title'],
-                'price': row['price']
-            }
+            listing = Listing(row['listing_id'], row['title'], row['description'], row['price'], row['host_user_id'])
+            request = Request(row['request_id'], row['date_from'], row['date_to'], row['requester_user_id'], row['listing_id'], row['status'], listing)
             requests.append(request)
         return requests
 

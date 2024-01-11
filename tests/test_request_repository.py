@@ -88,5 +88,6 @@ def test_get_requests_I_made(db_connection):
     repo = RequestRepository(db_connection)
     requests = repo.get_requests_I_made(1)
     assert requests == [
-        
+        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1)),
+        Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1))
     ]
