@@ -42,9 +42,20 @@ class RequestRepository:
             requests.append(request)
         return requests
 
-    def get_recieved_requests(self):
+    def get_recieved_requests(self, loggedin_user_id):
         # Retrieve requests sent to my listings
-        pass
+        rows = self.connection.execute('SELECT requests.id as request_id, requests.date_from, requests.date_to, requests.user_id as requester_user_id, requests.status, listings.id as listing_id, listings.title, listings.description, listings.price, listings.user_id as host_user_id ' \
+                                        ' FROM requests ' \
+                                        ' JOIN listings ON requests.listing_id = listings.id ' \
+                                        ' WHERE listings.user_id = %s', [loggedin_user_id])
+        requests = []
+        print('HEEELLLOOOO')
+        print(rows)
+        for row in rows:
+            listing = Listing(row['listing_id'], row['title'], row['description'], row['price'], row['host_user_id'])
+            request = Request(row['request_id'], row['date_from'], row['date_to'], row['requester_user_id'], row['listing_id'], row['status'], listing)
+            requests.append(request)
+        return requests
 
     def check_dates(self, date_from, date_to, listing_id):
         rows = self.connection.execute('SELECT * FROM requests WHERE listing_id = %s', [listing_id])

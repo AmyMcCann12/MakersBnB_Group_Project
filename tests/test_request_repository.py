@@ -91,3 +91,14 @@ def test_get_requests_I_made(db_connection):
         Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1)),
         Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1))
     ]
+
+def test_get_requests_to_my_listings(db_connection):
+    db_connection.seed("seeds/requests.sql")
+    db_connection.seed("seeds/listings.sql")
+    repo = RequestRepository(db_connection)
+    print('getting requetss...')
+    requests = repo.get_recieved_requests(1)
+    assert requests == [
+        Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1)),
+        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1))
+    ]
