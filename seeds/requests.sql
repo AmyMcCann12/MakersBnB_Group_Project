@@ -23,8 +23,5 @@ CREATE TABLE requests (
 
 INSERT INTO requests (date_from, date_to, user_id, listing_id, status) VALUES ('2024-04-03', '2024-04-10', '1', '3', 'pending');
 INSERT INTO requests (date_from, date_to, user_id, listing_id, status) VALUES ('2024-03-20', '2024-03-27', '1', '3', 'pending');
-
-
-
-
-
+INSERT INTO requests (date_from, date_to, user_id, listing_id, status) VALUES ('2024-03-20', '2024-03-27', '2', '2', 'pending');
+INSERT INTO requests (date_from, date_to, user_id, listing_id, status) VALUES ('2024-03-20', '2024-03-27', '3', '1', 'pending');
