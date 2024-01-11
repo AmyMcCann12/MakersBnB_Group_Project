@@ -10,25 +10,26 @@
         <link rel="stylesheet" href="/static/style.css" >
     </head>
     <body>
-        <!-- Message displayed on booking to say success or failure -->
-        {% if message %}
-        <p>{{message}}</p>
-        {% endif %}
+        <div id="listingpage">
+            <!-- Message displayed on booking to say success or failure -->
+            {% if message %}
+            <p>{{message}}</p>
+            {% endif %}
 
-        <h1>Listing {{listing.title}}</h1>
-        <p>Description: {{listing.description}}</p>
-        <p>Price: £{{listing.price}}</p>
-        <form action="" method="post">
-            <p>
-                <label for="date_from">Date from</label>
-                <input type="date" name="date_from" required id="date_from">
-            </p>
-            <p>
-                <label for="date_to">Date to</label>
-                <input type="date" name="date_to" required id="date_to">
-            </p>
-            <input type = "hidden" name="listing_id" value={{listing.id}}>
-            <p><input type="submit" value="Submit"></p>
-        </form>
+            <h1>Listing {{listing.title}}</h1>
+            <p>Description: {{listing.description}}</p>
+            <div id="PriceBox"><p>Price: £{{listing.price}}</p></div><br><br>
+            <div id="OuterBox"><form action="" method="post">
+                <p>
+                    <label for="date_from">Date from</label>
+                    <input style="border: 1px solid #000; border-radius: 12px" type="date" name="date_from" required id="date_from">
+                    →
+                    <label for="date_to">Date to</label>
+                    <input style="border: 1px solid #000; border-radius: 12px" type="date" name="date_to" required id="date_to">
+                </p>
+                <input type = "hidden" name="listing_id" value={{listing.id}}>
+                <p><input type="submit" value="Submit" id="beautiful-button"></p>
+            </form></div>
+        </div>
     </body>
 </html>

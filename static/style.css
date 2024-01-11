@@ -152,3 +152,43 @@ a {
         padding: 0 25px;
     }
 }
+
+#PriceBox {
+    width: 10%;
+    display: inline-block;
+    padding: 10px;
+    border: 2px solid #000;
+    border-radius: 12px;
+    background-color: #dddddd78;
+}
+
+#ConfirmationBox {
+    height: 70%;
+    margin-top: 10%;
+    margin-left: 25%;
+    margin-right: 25%;
+    border: 2px solid #000;
+    border-radius: 12px;
+    background-color: #dddddd78;
+    padding: 10px;
+    display: flex;
+}
+
+#BookingDetails {
+    float: left;
+    width: 45%;
+    text-align: left;
+    margin-right: 4.5%;
+}
+
+#BookingPrice{
+    float: right;
+    width: 45%;
+    text-align: right;
+    padding-left: 4.5%;
+    border-left: 2px solid #000;
+}
+
+#PriceTag {
+    font-size: larger;
+}

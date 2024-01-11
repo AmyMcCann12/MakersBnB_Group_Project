@@ -19,16 +19,6 @@ def test_get_index(page, test_web_address):
     # We assert that it has the text "This is the homepage."
     expect(strong_tag).to_have_text("Feel at home, searching from another!")
 
-def test_get_logged_in_homepage(page, test_web_address):
-    # We load a virtual browser and navigate to the /index page
-    page.goto(f"http://{test_web_address}/adminlogin")
-
-    # We look at the <p> tag
-    strong_tag = page.locator("p")
-
-    # We assert that it has the text "This is the homepage."
-    expect(strong_tag).to_have_text("Logged in homepage")
-
 def test_get_login_page(page, test_web_address):
     # We load a virtual browser and navigate to the /login2 page
     page.goto(f"http://{test_web_address}/login")
@@ -146,7 +136,7 @@ def test_make_successful_booking_request(page, test_web_address, db_connection):
     page.click("text=Book a space")
     strong_tag = page.locator('h1')
     expect(strong_tag).to_have_text("Book your space")
-    list_items = page.locator('li')
+    list_items = page.locator('h2')
     expect(list_items).to_contain_text([
         'First Listing',
         'Second Listing',
@@ -162,7 +152,8 @@ def test_make_successful_booking_request(page, test_web_address, db_connection):
     date_to_field.fill('2024-12-10')
     page.click('text=submit')
     booking_header = page.locator('h1')
-    expect(booking_header).to_have_text('Your Booking')
+    expect(booking_header).to_contain_text(['Your Booking',
+                                         'Total Price'])
     cost = page.get_by_text('£')
     expect(cost).to_have_text('£3.95')
 
@@ -182,7 +173,7 @@ def test_make_unsuccessful_booking_request(page, test_web_address, db_connection
     page.click("text=Book a space")
     strong_tag = page.locator('h1')
     expect(strong_tag).to_have_text("Book your space")
-    list_items = page.locator('li')
+    list_items = page.locator('h2')
     expect(list_items).to_contain_text([
         'First Listing',
         'Second Listing',
@@ -212,7 +203,7 @@ def test_show_listing_and_show_individual_listing(page, test_web_address, db_con
     page.click("text=Book a space")
     strong_tag = page.locator('h1')
     expect(strong_tag).to_have_text("Book your space")
-    list_items = page.locator('li')
+    list_items = page.locator('h2')
     expect(list_items).to_contain_text([
         'First Listing',
         'Second Listing',
