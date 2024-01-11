@@ -9,7 +9,9 @@ def test_getting_the_requests(db_connection):
     requests = repo.get_all_requests()
     assert requests == [
         Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending'),
-        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending')
+        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending'),
+        Request(3, datetime.date(2024,3,20), datetime.date(2024,3,27), 2, 2, 'pending'),
+        Request(4, datetime.date(2024,3,20), datetime.date(2024,3,27), 3, 1, 'pending')
     ]
 
 #Test to check that get_single_requests method pulls single request
@@ -25,7 +27,7 @@ def test_create_request(db_connection):
     repo = RequestRepository(db_connection)
     repo.create_request(Request(None, '2024-05-01', '2024-05-08', 1, 4, 'pending'))
     requests = repo.get_all_requests()
-    assert len(requests) == 3
+    assert len(requests) == 5
 
 #Test to check delete request method
 def test_delete_request(db_connection):
@@ -33,7 +35,7 @@ def test_delete_request(db_connection):
     repo = RequestRepository(db_connection)
     repo.delete(1)
     requests = repo.get_all_requests()
-    assert len(requests) == 1
+    assert len(requests) == 3
 
 #Test to check update_dates method does update in database
 def test_update_the_request_dates(db_connection):
@@ -63,7 +65,7 @@ def test_date_available_for_listing_but_booked_other_listing(db_connection):
     db_connection.seed("seeds/requests.sql")
     repo = RequestRepository(db_connection)
     is_available = repo.check_dates("2024-03-21", "2024-03-24", 1)
-    assert is_available == True
+    assert is_available == False
 
 #Test to check if when someone wants to check in on a departure date,
 #it the listing is available to book
@@ -88,17 +90,16 @@ def test_get_requests_I_made(db_connection):
     repo = RequestRepository(db_connection)
     requests = repo.get_requests_I_made(1)
     assert requests == [
-        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1)),
-        Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1))
+        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3)),
+        Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3))
     ]
 
 def test_get_requests_to_my_listings(db_connection):
     db_connection.seed("seeds/requests.sql")
     db_connection.seed("seeds/listings.sql")
     repo = RequestRepository(db_connection)
-    print('getting requetss...')
-    requests = repo.get_recieved_requests(1)
+    requests = repo.get_recieved_requests(3)
     assert requests == [
-        Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1)),
-        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 1))
+        Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3)),
+        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3))
     ]

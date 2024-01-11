@@ -15,7 +15,7 @@ def test_request_constructs():
 
 def test_format():
     request = Request(0, '2024-02-01', '2024-02-08', 1, 4, 'pending')
-    assert str(request) == "Request(0, '2024-02-01', '2024-02-08', 1, 4, True)"
+    assert str(request) == "Request(0, '2024-02-01', '2024-02-08', 1, 4, pending)"
 
 def test_cost_calculator():
     request = Request(0, dt(2024, 2, 1), dt(2024, 2, 3), 1, 4, 'pending')

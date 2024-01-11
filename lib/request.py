@@ -11,7 +11,7 @@ class Request:
         self.listing = listing
 
     def __repr__(self):
-        return f"Request({self.id}, '{self.date_from}', '{self.date_to}', {self.requester_user_id}, {self.listing_id}, {self.status}, {self.listing})"
+        return f"Request({self.id}, '{self.date_from}', '{self.date_to}', {self.requester_user_id}, {self.listing_id}, {self.status})"
     
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
