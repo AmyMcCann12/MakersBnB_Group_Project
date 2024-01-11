@@ -7,7 +7,7 @@ class Listing:
         self.host_user_id = host_user_id
 
     def __repr__(self):
-        return f"Listing({self.id}, '{self.title}', '{self.description}', {self.price}, {self.user_id})"
+        return f"Listing({self.id}, '{self.title}', '{self.description}', {self.price}, {self.host_user_id})"
     
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
