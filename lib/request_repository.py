@@ -24,6 +24,28 @@ class RequestRepository:
     def update_dates(self, id, date_from, date_to):
         self.connection.execute('UPDATE requests SET date_from = %s, date_to = %s WHERE id = %s', [date_from, date_to, id])
 
+    # def get_host_id(self, id):
+        # Get host_id from listing
+        # request = self.get_single_requests(id)
+        # request.listing_id
+        # execute( get listing with listing_id )
+        # listing_repo.get_listing()
+        # JOIN requests and ??? requests has host_user_id
+
+        # rows = self.connection.execute('SELECT listings.user_id as host_user_id, ')
+
+    def get_requests_I_made(self, loggedin_user_id):
+        # Retrieve requests I have made to other books]
+        rows = self.connection.execute('SELECT requests.id as request_id, requests.date_from, requests.date_to, requests.user_id as requester_user_id, requests.listing_id, listings.title' \
+                                        'FROM requests' \
+                                        'JOIN listings ON requests.listing_id = listings.id' \
+                                        'WHERE requests.user_id = %s', [loggedin_user_id])
+        
+
+    def get_recieved_requests(self):
+        # Retrieve requests sent to my listings
+        pass
+
     def check_dates(self, date_from, date_to, listing_id):
         rows = self.connection.execute('SELECT * FROM requests WHERE listing_id = %s', [listing_id])
         if rows != []:
