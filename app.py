@@ -84,6 +84,25 @@ def request_page():
     recieved_requests = req_repo.get_recieved_requests(id)
     return render_template('requests.html', id=id , sent_requests=sent_requests, recieved_requests=recieved_requests)
 
+@app.route('/request_details/<int:id>', methods=['GET'])
+def request_details(id):
+    connection = get_flask_database_connection(app)
+    req_repo = RequestRepository(connection)
+    user_id = request.args['id']
+    print('requets booking from repo...')
+    booking = req_repo.get_single_requests(id)
+    print(id)
+    print(user_id)
+    return render_template('request_details.html', user_id=user_id, booking=booking)
+
+@app.route('/request_details/<int:id>', methods=['POST'])
+def update_request_confirmation(id):
+    connection = get_flask_database_connection(app)
+    req_repo = RequestRepository(connection)
+    status = request.form['status']
+    req_repo.update_status(id, status)
+    pass
+
 @app.route('/listing/<int:id>', methods=['POST'])
 def submit_request(id):
     connection = get_flask_database_connection(app)
@@ -95,8 +114,6 @@ def submit_request(id):
     list_repo = ListingRepository(connection)
     booking = Request(None, date_from, date_to, user_id, listing_id)
     listing = list_repo.select(id)
-    # if user_id == listing.user_id:
-        
     # Run check to see if date available then run if block
     if req_repo.check_dates(booking.date_from, booking.date_to, listing_id):
         booking = req_repo.create_request(booking)
