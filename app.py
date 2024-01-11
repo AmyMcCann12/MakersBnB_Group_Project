@@ -63,8 +63,6 @@ def loggedin_page():
     id = request.args['id']
     return render_template('loggedin.html', id = id)
 
-
-
 #----------------------------------------------#
 #Bookings
 @app.route('/book', methods=['GET'])
@@ -102,7 +100,7 @@ def submit_request(id):
     # Run check to see if date available then run if block
     if req_repo.check_dates(booking.date_from, booking.date_to, listing_id):
         booking = req_repo.create_request(booking)
-        return redirect(f'/your_booking/{booking.id}')
+        return redirect(f'/your_booking/{booking.id}?id={user_id}')
     else:
         message = 'Booking failed. Dates not available.'
         return render_template('listing.html', message=message, listing=listing)
