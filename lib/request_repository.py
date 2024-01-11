@@ -24,10 +24,6 @@ class RequestRepository:
     
     def update_dates(self, id, date_from, date_to):
         self.connection.execute('UPDATE requests SET date_from = %s, date_to = %s WHERE id = %s', [date_from, date_to, id])
-
-    def find_with_listing(self, loggedin_user_id):
-        # 
-        pass
         
     def get_requests_I_made(self, loggedin_user_id):
         # Retrieve requests I have made to other books]
