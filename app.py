@@ -57,9 +57,11 @@ def submit_login():
         message = "Incorrect details" 
         return render_template('login.html', message = message)
 
-@app.route('/adminlogin', methods=['GET'])
+@app.route('/loggedin', methods=['GET'])
 def loggedin_page():
-    return render_template('loggedin.html')
+    #connection = get_flask_database_connection(app)
+    id = request.args['id']
+    return render_template('loggedin.html', id = id)
 
 
 
@@ -91,6 +93,8 @@ def submit_request(id):
     list_repo = ListingRepository(connection)
     booking = Request(None, date_from, date_to, user_id, listing_id, confirmed=True)
     listing = list_repo.select(id)
+    # if user_id == listing.user_id:
+        
     # Run check to see if date available then run if block
     if req_repo.check_dates(booking.date_from, booking.date_to, listing_id):
         booking = req_repo.create_request(booking)
@@ -127,14 +131,22 @@ def post_data():
     user_id = request.args['id']
     listing = Listing(None, title, description, price, user_id)
     listing = repo.insert(listing)
-    return redirect(f'/listing/{listing.id}')
+    return redirect(f'/listing/{listing.id}?id={user_id}')
 
 @app.route('/listing/<int:id>', methods=['GET'])
 def get_listing(id):
     connection = get_flask_database_connection(app)
     repo = ListingRepository(connection)
     listing = repo.select(id)
-    return render_template('listing.html', listing=listing)
+    return render_template('listing.html', listing = listing)
+
+@app.route('/yourspaces', methods=['GET'])
+def your_spaces():
+    connection = get_flask_database_connection(app)
+    repo = ListingRepository(connection)
+    id = request.args['id']
+    listing = repo.select_by_user_id(id)
+    return render_template('yourspaces.html', listing = listing, id = id)
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database

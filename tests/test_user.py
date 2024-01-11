@@ -9,4 +9,4 @@ def test_user_constructs():
 
 def test_format():
     user = User(1, 'John', 'email@gmail.com', 'password')
-    assert str(user) == "User(1, 'John', 'email@gmail.com', password)"
+    assert str(user) == "User(1, 'John', 'email@gmail.com', 'password')"
