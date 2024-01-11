@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css" >
     <title>Your Booking</title>
 </head>
 <body>
-    <div>
-        <h1>Your Booking</h1>
-        <div>
-            <h2>{{listing.title}}</h2>
-            <p>{{listing.description}}</p>
+    <div id="listingpage">
+        <div id="ConfirmationBox">
+            
+            <div id="BookingDetails">
+                <h1>Your Booking</h1>
+                <h2>{{listing.title}}</h2>
+                <p>{{listing.description}}</p>
+                <h2>Trip Duration:</h2>
+                <p>Start Date: {{booking.date_from}}</p>
+                <p>End Date: {{booking.date_to}}</p>
+            </div>
+            <div id="BookingPrice">
+                <h1>Total Price:</h1>
+                <p id="PriceTag">£{{cost}}</p>
+                <a href="/loggedin?id={{booking.user_id}}" id="beautiful-button">Confirm Purchase</a>
+            </div>
+            <!-- <a href="/loggedin"><button>Home</button></a> -->
         </div>
-        <div>
-            <h2>Your Trip Details</h2>
-            <p>Start Date: {{booking.date_from}}</p>
-            <p>End Date: {{booking.date_to}}</p>
-            <h3>Total Price:</h3>
-            <p>£{{cost}}</p>
-        </div>
-        <a href="/loggedin"><button>Home</button></a>
     </div>
 </body>
 </html>

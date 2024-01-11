@@ -8,10 +8,20 @@
 </head>
 <body>
     {% if id %}
-    <h1>Requests</h1>
-    <div id="MainDivrequests">
-        <div id="div1Requests">
+    <h1 id="Heading">Requests</h1>
+    <p id="Heading">This is a description for the requests page</p>
+    <div id="test">
+        <div class="column">
             <h2>Requests I've made</h2>
+        </div>
+        <div class="column">
+            <h2>Requests I've received</h2>
+        </div>
+    </div>
+    <div id="MainDivrequests">
+        
+        <div id="div1Requests">  
+            <div id="InnerBox">
             {% for i in requests %}
                 <h3>{{i.listing.title}}</h3>
                 <p>Check-in: {{i.date_from}}</p>
@@ -19,11 +29,11 @@
                 <p>Cost: {{i.calculate_cost(i.listing.price)}}</p>
                 <br>
             {% endfor %}
-        </div>
+        </div></div>
         <div id="div2Requests">
-            <h2>Requests I've received</h2>
+            <div id="InnerBox">
             <p>request1</p>
-        </div>
+        </div></div>
     </div>
     {% else %}
         <div> Please log in to view content </div>
