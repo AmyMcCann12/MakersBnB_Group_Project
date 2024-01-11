@@ -80,3 +80,13 @@ def test_date_available_with_no_listing_requests(db_connection):
     repo = RequestRepository(db_connection)
     is_available = repo.check_dates(datetime.date(2024,4,10), datetime.date(2024,4,17), 2)
     assert is_available == True
+
+# Test retrieve requests I have made as a guest
+def test_get_requests_I_made(db_connection):
+    db_connection.seed("seeds/requests.sql")
+    db_connection.seed("seeds/listings.sql")
+    repo = RequestRepository(db_connection)
+    requests = repo.get_requests_I_made(1)
+    assert requests == [
+        
+    ]
