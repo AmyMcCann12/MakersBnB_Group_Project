@@ -12,7 +12,12 @@
     <div id="MainDivrequests">
         <div id="div1Requests">
             <h2>Requests I've made</h2>
-            <p>request1 for this user id: {{id}}</p>
+            {% for i in requests %}
+                <p>{{i.title}}</p>
+                <p>Check-in {{i.date_from}}</p>
+                <p>Checkout {{i.date_to}}</p>
+                <p>Cost: {{i.price}}</p>
+            {% endfor %}
         </div>
         <div id="div2Requests">
             <h2>Requests I've received</h2>

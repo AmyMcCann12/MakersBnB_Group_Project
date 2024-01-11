@@ -76,9 +76,12 @@ def booking_page():
 
 @app.route('/requests', methods=['GET'])
 def request_page():
+    connection = get_flask_database_connection(app)
+    req_repo = RequestRepository(connection)
     #testing authentication
     id = request.args['id']
-    return render_template('requests.html', id=id)
+    requests = req_repo.get_requests_I_made(id)
+    return render_template('requests.html', id=id , requests=requests)
 
 @app.route('/listing/<int:id>', methods=['POST'])
 def submit_request(id):
@@ -89,7 +92,7 @@ def submit_request(id):
     listing_id = request.form['listing_id']
     req_repo = RequestRepository(connection)
     list_repo = ListingRepository(connection)
-    booking = Request(None, date_from, date_to, user_id, listing_id, confirmed=True)
+    booking = Request(None, date_from, date_to, user_id, listing_id)
     listing = list_repo.select(id)
     # Run check to see if date available then run if block
     if req_repo.check_dates(booking.date_from, booking.date_to, listing_id):
@@ -107,8 +110,7 @@ def your_booking(id):
     booking = req_repo.get_single_requests(id)
     listing = list_repo.select(booking.listing_id)
     # Working out the total price of the booking
-    total_days = booking.date_to - booking.date_from
-    cost = "{:.2f}".format(total_days.days * listing.price)
+    cost = booking.calculate_cost(listing.price)
     return render_template('booking_success.html', listing=listing, booking=booking, cost=cost)
 
 #ROBERT AND HARRY'S CODE

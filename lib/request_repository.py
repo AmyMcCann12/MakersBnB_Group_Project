@@ -15,7 +15,7 @@ class RequestRepository:
         return Request(rows[0]['id'], rows[0]['date_from'], rows[0]['date_to'], rows[0]['user_id'], rows[0]['listing_id'], rows[0]['status'])
     
     def create_request(self, request):
-        rows = self.connection.execute('INSERT INTO requests (date_from, date_to, user_id, listing_id, status) VALUES (%s, %s, %s, %s, %s) RETURNING id', [request.date_from, request.date_to, request.user_id, request.listing_id, request.status])
+        rows = self.connection.execute('INSERT INTO requests (date_from, date_to, user_id, listing_id, status) VALUES (%s, %s, %s, %s, %s) RETURNING id', [request.date_from, request.date_to, request.requester_user_id, request.listing_id, request.status])
         request.id = rows[0]['id']
         return request
 
@@ -37,11 +37,21 @@ class RequestRepository:
 
     def get_requests_I_made(self, loggedin_user_id):
         # Retrieve requests I have made to other books]
-        rows = self.connection.execute('SELECT requests.id as request_id, requests.date_from, requests.date_to, requests.user_id as requester_user_id, requests.listing_id, listings.title' \
-                                        'FROM requests' \
-                                        'JOIN listings ON requests.listing_id = listings.id' \
-                                        'WHERE requests.user_id = %s', [loggedin_user_id])
-        
+        rows = self.connection.execute('SELECT requests.date_from, requests.date_to, requests.status, listings.title, listings.price ' \
+                                        ' FROM requests ' \
+                                        ' JOIN listings ON requests.listing_id = listings.id ' \
+                                        ' WHERE requests.user_id = %s', [loggedin_user_id])
+        requests = []
+        for row in rows:
+            request = {
+                'date_from': row['date_from'],
+                'date_to': row['date_to'],
+                'status': row['status'],
+                'title': row['title'],
+                'price': row['price']
+            }
+            requests.append(request)
+        return requests
 
     def get_recieved_requests(self):
         # Retrieve requests sent to my listings
