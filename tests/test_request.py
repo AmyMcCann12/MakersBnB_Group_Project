@@ -1,5 +1,6 @@
 from lib.request import *
 from unittest.mock import Mock
+from datetime import datetime as dt
 
 def test_request_constructs():
     request = Request(0, '2024-02-01', '2024-02-08', 1, 4, True)
@@ -15,5 +16,5 @@ def test_format():
     assert str(request) == "Request(0, '2024-02-01', '2024-02-08', 1, 4, True)"
 
 def test_cost_calculator():
-    request = Request(0, '2024-02-01', '2024-02-03', 1, 4, True)
+    request = Request(0, dt(2024, 2, 1), dt(2024, 2, 3), 1, 4, True)
     assert request.calculate_cost(9.99) == 19.98

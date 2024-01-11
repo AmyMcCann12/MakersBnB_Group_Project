@@ -16,6 +16,8 @@ class Request:
         return self.__dict__ == other.__dict__
     
     def calculate_cost(self, price):
-        number_of_nights = dt.strptime(self.date_to, '%Y-%m-%d') - dt.strptime(self.date_from, '%Y-%m-%d')
+        number_of_nights = self.date_to - self.date_from
+        print(number_of_nights)
         cost = number_of_nights.days * price
+        print(cost)
         return cost
