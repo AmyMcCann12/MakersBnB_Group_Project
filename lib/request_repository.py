@@ -7,14 +7,14 @@ class RequestRepository:
     
     def get_all_requests(self):
         rows = self.connection.execute('SELECT * FROM requests')
-        return [Request(request['id'], request['date_from'], request['date_to'], request['user_id'], request['listing_id'], request['confirmed']) for request in rows]
+        return [Request(request['id'], request['date_from'], request['date_to'], request['user_id'], request['listing_id'], request['status']) for request in rows]
     
     def get_single_requests(self, id):
         rows = self.connection.execute('SELECT * FROM requests WHERE id = %s', [id])
-        return Request(rows[0]['id'], rows[0]['date_from'], rows[0]['date_to'], rows[0]['user_id'], rows[0]['listing_id'], rows[0]['confirmed'])
+        return Request(rows[0]['id'], rows[0]['date_from'], rows[0]['date_to'], rows[0]['user_id'], rows[0]['listing_id'], rows[0]['status'])
     
     def create_request(self, request):
-        rows = self.connection.execute('INSERT INTO requests (date_from, date_to, user_id, listing_id, confirmed) VALUES (%s, %s, %s, %s, %s) RETURNING id', [request.date_from, request.date_to, request.user_id, request.listing_id, request.confirmed])
+        rows = self.connection.execute('INSERT INTO requests (date_from, date_to, user_id, listing_id, status) VALUES (%s, %s, %s, %s, %s) RETURNING id', [request.date_from, request.date_to, request.user_id, request.listing_id, request.status])
         request.id = rows[0]['id']
         return request
 
