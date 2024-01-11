@@ -82,8 +82,9 @@ def request_page():
     req_repo = RequestRepository(connection)
     #testing authentication
     id = request.args['id']
-    requests = req_repo.get_requests_I_made(id)
-    return render_template('requests.html', id=id , requests=requests)
+    sent_requests = req_repo.get_requests_I_made(id)
+    recieved_requests = req_repo.get_recieved_requests(id)
+    return render_template('requests.html', id=id , sent_requests=sent_requests, recieved_requests=recieved_requests)
 
 @app.route('/listing/<int:id>', methods=['POST'])
 def submit_request(id):

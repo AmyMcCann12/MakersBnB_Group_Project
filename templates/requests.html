@@ -13,16 +13,9 @@
     <div id="test">
         <div class="column">
             <h2>Requests I've made</h2>
-        </div>
-        <div class="column">
-            <h2>Requests I've received</h2>
-        </div>
-    </div>
-    <div id="MainDivrequests">
-        
-        <div id="div1Requests">  
+            <div id="div1Requests">  
             <div id="InnerBox">
-            {% for i in requests %}
+            {% for i in sent_requests %}
                 <h3>{{i.listing.title}}</h3>
                 <p>Check-in: {{i.date_from}}</p>
                 <p>Check-out: {{i.date_to}}</p>
@@ -30,11 +23,27 @@
                 <br>
             {% endfor %}
         </div></div>
+        </div>
+        <div class="column">
+            <h2>Requests I've received</h2>
+            <div id="div1Requests">  
+            <div id="InnerBox">
+            {% for i in recieved_requests %}
+                <h3>{{i.listing.title}}</h3>
+                <p>Check-in: {{i.date_from}}</p>
+                <p>Check-out: {{i.date_to}}</p>
+                <p>Cost: {{i.calculate_cost(i.listing.price)}}</p>
+                <br>
+            {% endfor %}
+        </div></div>
+        </div>
+    </div>
+    <!-- <div id="MainDivrequests">
         <div id="div2Requests">
             <div id="InnerBox">
             <p>request1</p>
         </div></div>
-    </div>
+    </div> -->
     {% else %}
         <div> Please log in to view content </div>
         <a href="/login2">Login page</a>
