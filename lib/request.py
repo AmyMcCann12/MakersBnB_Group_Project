@@ -1,3 +1,5 @@
+from datetime import datetime as dt
+
 class Request:
     def __init__(self, id, date_from, date_to, requester_user_id, listing_id, status='pending'):
         self.id = id
@@ -8,9 +10,12 @@ class Request:
         self.status = status
 
     def __repr__(self):
-        return f"Request({self.id}, '{self.date_from}', '{self.date_to}', {self.user_id}, {self.listing_id}, {self.status})"
+        return f"Request({self.id}, '{self.date_from}', '{self.date_to}', {self.requester_user_id}, {self.listing_id}, {self.status})"
     
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
     
-    
+    def calculate_cost(self, price):
+        number_of_nights = dt.strptime(self.date_to, '%Y-%m-%d') - dt.strptime(self.date_from, '%Y-%m-%d')
+        cost = number_of_nights.days * price
+        return cost
