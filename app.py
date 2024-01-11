@@ -92,7 +92,7 @@ def submit_request(id):
     booking = Request(None, date_from, date_to, user_id, listing_id, confirmed=True)
     listing = list_repo.select(id)
     # Run check to see if date available then run if block
-    if req_repo.check_dates(date_from, date_to, listing_id):
+    if req_repo.check_dates(booking.date_from, booking.date_to, listing_id):
         booking = req_repo.create_request(booking)
         return redirect(f'/your_booking/{booking.id}')
     else:
