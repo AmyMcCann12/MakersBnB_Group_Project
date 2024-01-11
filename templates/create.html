@@ -9,22 +9,24 @@
         -->
         <link rel="stylesheet" href="/static/style.css" >
     </head>
-    <body>
+    <body id="listingpage">
         <h1>Create a Listing</h1>
+        <div id="OuterBox">
         <form action="" method="post">
-            <p>
-                <label for="title">Title</label>
-                <input type="text" name="title" id="title">
+            <p id="Row">
+                <label for="title">Title</label><br>
+                <input type="text" name="title" id="title" class="textboxes" required>
             </p>
-            <p>
-                <label for="description">Description</label>
-                <input type="text" name="description" id="description">
+            <p id="Row">
+                <label for="description">Description</label><br>
+                <input type="text" name="description" id="description" class="textboxes" required>
             </p>
-            <p>
-                <label for="price">Price Per Night: £</label>
-                <input type="text" name="price" id="price">
+            <p id="Row">
+                <label for="price">Price Per Night: £</label><br>
+                <input type="text" name="price" id="price" class="textboxes" required>
             </p>
-            <p><input type="submit" value="Submit"></p>
+            <p><input id="beautiful-button" type="submit" value="Submit"></p>
         </form>
+    </div>
     </body>
 </html>
