@@ -22,3 +22,7 @@ class ListingRepository:
     
     def update(self, id, title, description, price):
         self.connection.execute('UPDATE listings SET title = %s, description = %s, price = %s WHERE id = %s', [title, description, price, id])
+    
+    def select_by_user_id(self, id):
+        rows = self.connection.execute('SELECT * FROM listings WHERE user_id = %s', [id])
+        return [Listing(listing['id'], listing['title'], listing['description'], listing['price'], listing['user_id']) for listing in rows]

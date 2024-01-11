@@ -105,6 +105,13 @@ def get_listing(id):
     listing = repo.select(id)
     return render_template('listing.html', listing = listing)
 
+@app.route('/yourspaces', methods=['GET'])
+def your_spaces():
+    connection = get_flask_database_connection(app)
+    repo = ListingRepository(connection)
+    id = request.args['id']
+    listing = repo.select_by_user_id(id)
+    return render_template('yourspaces.html', listing = listing, id = id)
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
