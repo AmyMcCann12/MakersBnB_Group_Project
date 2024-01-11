@@ -2,7 +2,11 @@ DROP TABLE IF EXISTS listings;
 DROP SEQUENCE IF EXISTS listings_id_seq;
 CREATE SEQUENCE IF NOT EXISTS listings_id_seq;
 CREATE TABLE listings(
-    id SERIAL PRIMARY KEY, title varchar(255), description text, price float, user_id int
+    id SERIAL PRIMARY KEY, 
+    title varchar(255), 
+    description text, 
+    price float, 
+    user_id int
 );
 
 -- ONCE THIS IS READY REFERENECE THE USER ID
