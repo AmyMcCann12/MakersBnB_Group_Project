@@ -11,8 +11,11 @@ class RequestRepository:
         return [Request(request['id'], request['date_from'], request['date_to'], request['user_id'], request['listing_id'], request['status']) for request in rows]
     
     def get_single_requests(self, id):
-        rows = self.connection.execute('SELECT * FROM requests WHERE id = %s', [id])
-        return Request(rows[0]['id'], rows[0]['date_from'], rows[0]['date_to'], rows[0]['user_id'], rows[0]['listing_id'], rows[0]['status'])
+        rows = self.connection.execute('SELECT requests.id as request_id, requests.date_from, requests.date_to, requests.user_id as requester_user_id, requests.status, listings.id as listing_id, listings.title, listings.description, listings.price, listings.user_id as host_user_id ' \
+                                        ' FROM requests ' \
+                                        ' JOIN listings ON requests.listing_id = listings.id ' \
+                                        ' WHERE requests.id = %s', [id])
+        return Request(rows[0]['request_id'], rows[0]['date_from'], rows[0]['date_to'], rows[0]['requester_user_id'], rows[0]['listing_id'], rows[0]['status'], Listing(rows[0]['listing_id'], rows[0]['title'], rows[0]['description'], rows[0]['price'], rows[0]['host_user_id']))
     
     def create_request(self, request):
         rows = self.connection.execute('INSERT INTO requests (date_from, date_to, user_id, listing_id, status) VALUES (%s, %s, %s, %s, %s) RETURNING id', [request.date_from, request.date_to, request.requester_user_id, request.listing_id, request.status])
@@ -24,6 +27,9 @@ class RequestRepository:
     
     def update_dates(self, id, date_from, date_to):
         self.connection.execute('UPDATE requests SET date_from = %s, date_to = %s WHERE id = %s', [date_from, date_to, id])
+
+    def update_status(self, id, status):
+        self.connection.execute('UPDATE requests SET status = %s WHERE id = %s', [status, id])
         
     def get_requests_I_made(self, loggedin_user_id):
         # Retrieve requests I have made to other books]
@@ -45,8 +51,6 @@ class RequestRepository:
                                         ' JOIN listings ON requests.listing_id = listings.id ' \
                                         ' WHERE listings.user_id = %s', [loggedin_user_id])
         requests = []
-        print('HEEELLLOOOO')
-        print(rows)
         for row in rows:
             listing = Listing(row['listing_id'], row['title'], row['description'], row['price'], row['host_user_id'])
             request = Request(row['request_id'], row['date_from'], row['date_to'], row['requester_user_id'], row['listing_id'], row['status'], listing)

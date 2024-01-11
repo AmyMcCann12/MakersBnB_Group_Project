@@ -1,5 +1,6 @@
 from lib.request_repository import *
 from lib.request import *
+from lib.listing import Listing
 import datetime
 
 #Test to check that get_all_requests method pulls all requests
@@ -19,7 +20,7 @@ def test_get_single_request(db_connection):
     db_connection.seed("seeds/requests.sql")
     repo = RequestRepository(db_connection)
     requests = repo.get_single_requests(2)
-    assert requests ==  Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending')
+    assert requests ==  Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3))
 
 #Test to check create request method
 def test_create_request(db_connection):
@@ -43,7 +44,14 @@ def test_update_the_request_dates(db_connection):
     repo = RequestRepository(db_connection)
     repo.update_dates(2, '2024-06-01', '2024-06-08')
     requests = repo.get_single_requests(2)
-    assert requests == Request(2, datetime.date(2024,6,1), datetime.date(2024,6,8), 1, 3, 'pending')
+    assert requests == Request(2, datetime.date(2024,6,1), datetime.date(2024,6,8), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0.0, 3))
+
+def test_update_status(db_connection):
+    db_connection.seed('seeds/requests.sql')
+    repo = RequestRepository(db_connection)
+    repo.update_status(1, 'approved')
+    request = repo.get_single_requests(1)
+    assert request == Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'approved', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3))
 
 #Test to check date availability when the listing is available
 def test_date_is_available(db_connection):
