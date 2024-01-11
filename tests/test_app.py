@@ -113,7 +113,7 @@ def test_get_create_page_and_create_list_redirects(page, test_web_address, db_co
     page.click("text=submit")
     #Click on List a Space
     page.click("text=List a space")
-     #Check h1 tag
+    #Check h1 tag
     strong_tag = page.locator("h1")
     expect(strong_tag).to_have_text("Create a Listing")
     #Fill in Create a Space Form
@@ -198,3 +198,31 @@ def test_make_unsuccessful_booking_request(page, test_web_address, db_connection
     date_to_field.fill('2024-04-02')
     page.click('text=submit')
     expect(page.get_by_text('Booking failed.')).to_be_visible()
+    
+def test_show_listing_and_show_individual_listing(page, test_web_address, db_connection):
+    db_connection.seed("seeds/user.sql")
+    db_connection.seed("seeds/listings.sql")
+    page.goto(f'http://{test_web_address}/login')
+    #Sign In
+    page.fill("input[name = 'email']", "hello@gmail.com")
+    page.fill("input[name = 'password']", "testpassword1")
+    #Submit Details
+    page.click("text=submit")
+    # Click on Book a space
+    page.click("text=Book a space")
+    strong_tag = page.locator('h1')
+    expect(strong_tag).to_have_text("Book your space")
+    list_items = page.locator('li')
+    expect(list_items).to_contain_text([
+        'First Listing',
+        'Second Listing',
+        'Third Listing',
+        'Fourth Listing'
+    ])
+    page.click("text=First Listing")
+    listing_title = page.locator('h1')
+    expect(listing_title).to_have_text('Listing First Listing')
+    # price_tag = page.locator('p:nth-of-type(2)')
+    # print(price_tag)
+    # expect(price_tag).to_have_text('Price: £0.79')
+    expect(page.get_by_text('Price: £0.79')).to_be_visible()
