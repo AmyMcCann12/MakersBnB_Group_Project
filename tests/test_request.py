@@ -9,7 +9,7 @@ def test_request_constructs():
     assert request.date_to == '2024-02-08'
     assert request.requester_user_id == 1
     assert request.listing_id == 4
-    assert request.confirmed == True
+    assert request.status == True
 
 def test_format():
     request = Request(0, '2024-02-01', '2024-02-08', 1, 4, True)
