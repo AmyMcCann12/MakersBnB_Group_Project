@@ -4,7 +4,6 @@ from datetime import datetime as dt
 
 def test_request_constructs():
     request = Request(0, '2024-02-01', '2024-02-08', 1, 4, 'pending')
-
     assert request.id == 0
     assert request.date_from == '2024-02-01'
     assert request.date_to == '2024-02-08'
@@ -26,3 +25,8 @@ def test_request_contains_listing_info():
     listing.title = 'First Listing'
     request = Request(0, '2024-02-01', '2024-02-08', 1, 4, 'pending', listing)
     assert request.listing.title == 'First Listing'
+    assert request.status == "pending"
+
+def test_format():
+    request = Request(0, '2024-02-01', '2024-02-08', 1, 4, "pending")
+    assert str(request) == "Request(0, '2024-02-01', '2024-02-08', 1, 4, pending)"

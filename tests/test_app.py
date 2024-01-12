@@ -32,7 +32,7 @@ def test_get_login_page(page, test_web_address):
 
 def test_login_redirect_when_submit_clicked(page, test_web_address, db_connection):
     # We load a virtual browser and navigate to the /index page
-    db_connection.seed("seeds/user.sql")
+    db_connection.seed('seeds/DatabaseTables.sql')
     page.goto(f"http://{test_web_address}/index")
     page.fill("input[name = 'name']", "Test Name")
     page.fill("input[name = 'email']", "Test Email")
@@ -52,7 +52,7 @@ def test_login_redirect_when_hyperlink_clicked(page, test_web_address):
     expect(strong_tag).to_have_text("Log In")
 
 def test_get_loggedin_homepage(page, test_web_address, db_connection):
-    db_connection.seed("seeds/user.sql")
+    db_connection.seed('seeds/DatabaseTables.sql')
     page.goto(f"http://{test_web_address}/login")
     page.fill("input[name = 'email']", "hello@gmail.com")
     page.fill("input[name = 'password']", "testpassword1")
@@ -63,7 +63,7 @@ def test_get_loggedin_homepage(page, test_web_address, db_connection):
     expect(strong_tag).to_have_text("Logged in homepage")
 
 def test_get_book_space(page, test_web_address, db_connection):
-    db_connection.seed("seeds/user.sql")
+    db_connection.seed('seeds/DatabaseTables.sql')
     #Sign In
     page.goto(f"http://{test_web_address}/login")
     page.fill("input[name = 'email']", "hello@gmail.com")
@@ -79,7 +79,7 @@ def test_get_book_space(page, test_web_address, db_connection):
     expect(strong_tag).to_have_text("Book your space")
 
 def test_get_requests(page, test_web_address, db_connection):
-    db_connection.seed("seeds/user.sql")
+    db_connection.seed('seeds/DatabaseTables.sql')
     page.goto(f"http://{test_web_address}/login")
     #Sign In
     page.fill("input[name = 'email']", "hello@gmail.com")
@@ -94,7 +94,7 @@ def test_get_requests(page, test_web_address, db_connection):
 
 # Testing getting to create page after logging in
 def test_get_create_page_and_create_list_redirects(page, test_web_address, db_connection):
-    db_connection.seed("seeds/user.sql")
+    db_connection.seed('seeds/DatabaseTables.sql')
     page.goto(f"http://{test_web_address}/login")
     #Sign In
     page.fill("input[name = 'email']", "hello@gmail.com")
@@ -123,9 +123,7 @@ def test_get_create_page_and_create_list_redirects(page, test_web_address, db_co
 # Given I login and navigate to a listing I can complete a booking request form
 # On success I am taking to a booking confirmation page
 def test_make_successful_booking_request(page, test_web_address, db_connection):
-    db_connection.seed('seeds/user.sql')
-    db_connection.seed('seeds/listings.sql')
-    db_connection.seed('seeds/requests.sql')
+    db_connection.seed('seeds/DatabaseTables.sql')
     page.goto(f"http://{test_web_address}/login")
     #Sign In
     page.fill("input[name = 'email']", "hello@gmail.com")
@@ -160,9 +158,7 @@ def test_make_successful_booking_request(page, test_web_address, db_connection):
 # Given I login and navigate to a listing I can complete a booking request form
 # If the dates are not available I am shown an error message
 def test_make_unsuccessful_booking_request(page, test_web_address, db_connection):
-    db_connection.seed('seeds/user.sql')
-    db_connection.seed('seeds/listings.sql')
-    db_connection.seed('seeds/requests.sql')
+    db_connection.seed('seeds/DatabaseTables.sql')
     page.goto(f"http://{test_web_address}/login")
     #Sign In
     page.fill("input[name = 'email']", "hello@gmail.com")
@@ -191,8 +187,7 @@ def test_make_unsuccessful_booking_request(page, test_web_address, db_connection
     expect(page.get_by_text('Booking failed.')).to_be_visible()
     
 def test_show_listing_and_show_individual_listing(page, test_web_address, db_connection):
-    db_connection.seed("seeds/user.sql")
-    db_connection.seed("seeds/listings.sql")
+    db_connection.seed('seeds/DatabaseTables.sql')
     page.goto(f'http://{test_web_address}/login')
     #Sign In
     page.fill("input[name = 'email']", "hello@gmail.com")

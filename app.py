@@ -118,7 +118,7 @@ def submit_request(id):
     listing_id = request.form['listing_id']
     req_repo = RequestRepository(connection)
     list_repo = ListingRepository(connection)
-    booking = Request(None, date_from, date_to, user_id, listing_id)
+    booking = Request(None, date_from, date_to, user_id, listing_id, status="pending")
     listing = list_repo.select(id)
     # Run check to see if date available then run if block
     if req_repo.check_dates(booking.date_from, booking.date_to, listing_id):
