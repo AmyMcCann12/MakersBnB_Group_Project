@@ -8,7 +8,7 @@ body {
 #div1Requests {
     flex: 49%;
     width: 45%;
-    float: left;
+    position: absolute;
     border: 2px solid #000;
     border-radius: 12px;
     padding: 10px;
@@ -31,6 +31,13 @@ body {
     float: left;
 }
 
+.column2 {
+    width: 50%;
+    text-align: center;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
 #test {
     display: flex;
     padding: 20px;
@@ -40,7 +47,6 @@ body {
 #MainDivrequests {
     width: 90%;
     text-align: center;
-
     padding-left: 5%;
     padding-right: 5%;
 }
