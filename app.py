@@ -155,7 +155,7 @@ def post_data():
     user_id = request.args['id']
     listing = Listing(None, title, description, price, user_id)
     listing = repo.insert(listing)
-    return redirect(f'/listing/{listing.id}?id={user_id}')
+    return redirect(f'/yourspaces?id={user_id}')
 
 @app.route('/listing/<int:id>', methods=['GET'])
 def get_listing(id):
