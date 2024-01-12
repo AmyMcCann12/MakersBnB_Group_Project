@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 DROP TABLE IF EXISTS listings;
 DROP SEQUENCE IF EXISTS listings_id_seq;
 CREATE SEQUENCE IF NOT EXISTS listings_id_seq;
@@ -15,7 +14,7 @@ INSERT INTO listings (title, description, price, user_id) VALUES ('First Listing
 INSERT INTO listings (title, description, price, user_id) VALUES ('Second Listing', 'This is a description for the second listing', 2, 1);
 INSERT INTO listings (title, description, price, user_id) VALUES ('Third Listing', 'This is a description for the third listing', 0, 3);
 INSERT INTO listings (title, description, price, user_id) VALUES ('Fourth Listing', 'This is a description for the fourth listing', 0, 1);
-=======
+
 -- DROP TABLE IF EXISTS listings;
 -- DROP SEQUENCE IF EXISTS listings_id_seq;
 -- CREATE SEQUENCE IF NOT EXISTS listings_id_seq;
@@ -28,4 +27,4 @@ INSERT INTO listings (title, description, price, user_id) VALUES ('Fourth Listin
 -- INSERT INTO listings (title, description, price, user_id) VALUES ('Second Listing', 'This is a description for the second listing', 2, 1);
 -- INSERT INTO listings (title, description, price, user_id) VALUES ('Third Listing', 'This is a description for the third listing', 0, 1);
 -- INSERT INTO listings (title, description, price, user_id) VALUES ('Fourth Listing', 'This is a description for the fourth listing', 0, 1);
->>>>>>> main
+

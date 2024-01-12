@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 -- The job of this file is to reset all of our important database tables.
 -- And add any data that is needed for the tests to run.
 -- This is so that our tests, and application, are always operating from a fresh
@@ -23,7 +22,7 @@ INSERT INTO users (name, email, password) VALUES ('name', 'hello4@gmail.com', 'c
 -- testpassword2 (for hello2)
 -- testpassword3 (for hello3)
 -- testpassword4 (for hello4)
-=======
+
 -- -- The job of this file is to reset all of our important database tables.
 -- -- And add any data that is needed for the tests to run.
 -- -- This is so that our tests, and application, are always operating from a fresh
@@ -48,8 +47,4 @@ INSERT INTO users (name, email, password) VALUES ('name', 'hello4@gmail.com', 'c
 -- -- testpassword2 (for hello2)
 -- -- testpassword3 (for hello3)
 -- -- testpassword4 (for hello4)
-
-
->>>>>>> main
-
 

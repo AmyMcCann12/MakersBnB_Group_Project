@@ -30,3 +30,4 @@ def test_request_contains_listing_info():
 def test_format():
     request = Request(0, '2024-02-01', '2024-02-08', 1, 4, "pending")
     assert str(request) == "Request(0, '2024-02-01', '2024-02-08', 1, 4, pending)"
+
