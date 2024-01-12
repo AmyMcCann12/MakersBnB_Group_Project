@@ -36,7 +36,8 @@ class RequestRepository:
         rows = self.connection.execute('SELECT requests.id as request_id, requests.date_from, requests.date_to, requests.user_id as requester_user_id, requests.status, listings.id as listing_id, listings.title, listings.description, listings.price, listings.user_id as host_user_id ' \
                                         ' FROM requests ' \
                                         ' JOIN listings ON requests.listing_id = listings.id ' \
-                                        ' WHERE requests.user_id = %s', [loggedin_user_id])
+                                        ' WHERE requests.user_id = %s '
+                                        ' ORDER BY requests.date_from, listings.title ', [loggedin_user_id])
         requests = []
         for row in rows:
             listing = Listing(row['listing_id'], row['title'], row['description'], row['price'], row['host_user_id'])
@@ -49,7 +50,8 @@ class RequestRepository:
         rows = self.connection.execute('SELECT requests.id as request_id, requests.date_from, requests.date_to, requests.user_id as requester_user_id, requests.status, listings.id as listing_id, listings.title, listings.description, listings.price, listings.user_id as host_user_id ' \
                                         ' FROM requests ' \
                                         ' JOIN listings ON requests.listing_id = listings.id ' \
-                                        ' WHERE listings.user_id = %s', [loggedin_user_id])
+                                        ' WHERE listings.user_id = %s ' \
+                                        ' ORDER BY requests.date_from, listings.title ', [loggedin_user_id])
         requests = []
         for row in rows:
             listing = Listing(row['listing_id'], row['title'], row['description'], row['price'], row['host_user_id'])
