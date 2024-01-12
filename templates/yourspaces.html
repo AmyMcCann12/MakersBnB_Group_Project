@@ -9,7 +9,7 @@
                 <div id="OuterBox"> 
                     {% if listing %}
                         {% for list in listing %}
-                        <a href="/listing/{{list.id}}"> 
+                        <a href="/listing/{{list.id}}?id={{id}}"> 
                             <div id="InnerBox">
                             <h2> {{list.title}}</h2>
                             <p>{{list.description}}</p>
