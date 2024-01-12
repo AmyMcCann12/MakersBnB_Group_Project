@@ -63,8 +63,6 @@ def loggedin_page():
     id = request.args['id']
     return render_template('loggedin.html', id = id)
 
-
-
 #----------------------------------------------#
 #Bookings
 @app.route('/book', methods=['GET'])
@@ -76,12 +74,41 @@ def booking_page():
     listings = repo.get()
     return render_template('booking.html', id=id, listings=listings)
 
+#----------------------------------------------#
+# Requests Page
 @app.route('/requests', methods=['GET'])
 def request_page():
+    connection = get_flask_database_connection(app)
+    req_repo = RequestRepository(connection)
     #testing authentication
     id = request.args['id']
-    return render_template('requests.html', id=id)
+    sent_requests = req_repo.get_requests_I_made(id)
+    recieved_requests = req_repo.get_recieved_requests(id)
+    return render_template('requests.html', id=id , sent_requests=sent_requests, recieved_requests=recieved_requests)
 
+
+@app.route('/request_details/<int:id>', methods=['GET'])
+def request_details(id):
+    connection = get_flask_database_connection(app)
+    req_repo = RequestRepository(connection)
+    user_id = request.args['id']
+    print('requets booking from repo...')
+    booking = req_repo.get_single_requests(id)
+    print(id)
+    print(user_id)
+    return render_template('request_details.html', user_id=user_id, booking=booking)
+
+@app.route('/request_details/<int:id>', methods=['POST'])
+def update_request_confirmation(id):
+    connection = get_flask_database_connection(app)
+    req_repo = RequestRepository(connection)
+    status = request.form['status']
+    user_id = request.args['id']
+    req_repo.update_status(id, status)
+    return redirect(f'/requests?id={user_id}')
+
+#----------------------------------------------#
+# Listings
 @app.route('/listing/<int:id>', methods=['POST'])
 def submit_request(id):
     connection = get_flask_database_connection(app)
@@ -93,12 +120,10 @@ def submit_request(id):
     list_repo = ListingRepository(connection)
     booking = Request(None, date_from, date_to, user_id, listing_id, status="pending")
     listing = list_repo.select(id)
-    # if user_id == listing.user_id:
-        
     # Run check to see if date available then run if block
     if req_repo.check_dates(booking.date_from, booking.date_to, listing_id):
         booking = req_repo.create_request(booking)
-        return redirect(f'/your_booking/{booking.id}')
+        return redirect(f'/your_booking/{booking.id}?id={user_id}')
     else:
         message = 'Booking failed. Dates not available.'
         return render_template('listing.html', message=message, listing=listing)
@@ -111,8 +136,7 @@ def your_booking(id):
     booking = req_repo.get_single_requests(id)
     listing = list_repo.select(booking.listing_id)
     # Working out the total price of the booking
-    total_days = booking.date_to - booking.date_from
-    cost = "{:.2f}".format(total_days.days * listing.price)
+    cost = booking.calculate_cost(listing.price)
     return render_template('booking_success.html', listing=listing, booking=booking, cost=cost)
 
 #ROBERT AND HARRY'S CODE
@@ -131,7 +155,7 @@ def post_data():
     user_id = request.args['id']
     listing = Listing(None, title, description, price, user_id)
     listing = repo.insert(listing)
-    return redirect(f'/listing/{listing.id}?id={user_id}')
+    return redirect(f'/yourspaces?id={user_id}')
 
 @app.route('/listing/<int:id>', methods=['GET'])
 def get_listing(id):
