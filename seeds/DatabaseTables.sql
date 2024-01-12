@@ -39,7 +39,7 @@ CREATE TABLE listings(
 -- ONCE THIS IS READY REFERENECE THE USER ID
 INSERT INTO listings (title, description, price, user_id) VALUES ('First Listing', 'This is a description for the first listing', 0.79, 1);
 INSERT INTO listings (title, description, price, user_id) VALUES ('Second Listing', 'This is a description for the second listing', 2, 1);
-INSERT INTO listings (title, description, price, user_id) VALUES ('Third Listing', 'This is a description for the third listing', 0, 1);
+INSERT INTO listings (title, description, price, user_id) VALUES ('Third Listing', 'This is a description for the third listing', 0, 3);
 INSERT INTO listings (title, description, price, user_id) VALUES ('Fourth Listing', 'This is a description for the fourth listing', 0, 1);
 
 -- REQUESTS

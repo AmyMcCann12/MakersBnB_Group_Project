@@ -113,7 +113,7 @@ def test_get_create_page_and_create_list_redirects(page, test_web_address, db_co
     #Submit create a space form
     page.click("text=submit")
     h1_listing_tag = page.locator("h1")
-    expect(h1_listing_tag).to_have_text("Listing Test Title")
+    expect(h1_listing_tag).to_have_text("Your Spaces")
 
 
 # Need to add a test to get to a listing when logged in 

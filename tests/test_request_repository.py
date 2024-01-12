@@ -47,7 +47,7 @@ def test_update_the_request_dates(db_connection):
     assert requests == Request(2, datetime.date(2024,6,1), datetime.date(2024,6,8), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0.0, 3))
 
 def test_update_status(db_connection):
-    db_connection.seed('seeds/requests.sql')
+    db_connection.seed('seeds/DatabaseTables.sql')
     repo = RequestRepository(db_connection)
     repo.update_status(1, 'approved')
     request = repo.get_single_requests(1)
@@ -93,8 +93,7 @@ def test_date_available_with_no_listing_requests(db_connection):
 
 # Test retrieve requests I have made as a guest
 def test_get_requests_I_made(db_connection):
-    db_connection.seed("seeds/requests.sql")
-    db_connection.seed("seeds/listings.sql")
+    db_connection.seed('seeds/DatabaseTables.sql')
     repo = RequestRepository(db_connection)
     requests = repo.get_requests_I_made(1)
     assert requests == [
@@ -103,11 +102,10 @@ def test_get_requests_I_made(db_connection):
     ]
 
 def test_get_requests_to_my_listings(db_connection):
-    db_connection.seed("seeds/requests.sql")
-    db_connection.seed("seeds/listings.sql")
+    db_connection.seed('seeds/DatabaseTables.sql')
     repo = RequestRepository(db_connection)
     requests = repo.get_recieved_requests(3)
     assert requests == [
-        Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3)),
-        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3))
+        Request(2, datetime.date(2024,3,20), datetime.date(2024,3,27), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3)),
+        Request(1, datetime.date(2024,4,3), datetime.date(2024,4,10), 1, 3, 'pending', Listing(3, 'Third Listing', 'This is a description for the third listing', 0, 3))
     ]
