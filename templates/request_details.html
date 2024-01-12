@@ -19,9 +19,9 @@
                     <p>Check-in: {{booking.date_from}}</p>
                     <p>Check-out: {{booking.date_to}}</p>
                     <p>Cost: {{booking.calculate_cost(booking.listing.price)}}</p>
-                    <p>Status: {{booking.status}}</p>
+                    <p>Current Status: {{booking.status}}</p>
                     <br>
-                    <form method="post">
+                    <form action="" method="post">
                         <label for="status">Confirm Booking: </label>
                         <select name="status" id="status">
                             <option value="approved">Approved</option>

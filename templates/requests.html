@@ -32,25 +32,20 @@
             <div id="div1Requests">
                 <div id="InnerBox">
                     {% for i in recieved_requests %}
-                    <a href="/request_details/{{i.id}}/?id={{i.listing.host_user_id}}"><u><h3>{{i.listing.title}}</h3></u></a>
+                    <a href="/request_details/{{i.id}}?id={{i.listing.host_user_id}}"><u><h3>{{i.listing.title}}</h3></u></a>
                     <p>Check-in: {{i.date_from}}</p>
                     <p>Check-out: {{i.date_to}}</p>
                     <p>Cost: {{i.calculate_cost(i.listing.price)}}</p>
+                    <p>Status: {{i.status}}</p>
                     <br>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div id="MainDivrequests">
-        <div id="div2Requests">
-            <div id="InnerBox">
-            <p>request1</p>
-        </div></div>
-    </div> -->
     {% else %}
     <div> Please log in to view content </div>
-    <a href="/login2">Login page</a>
+    <a href="/login">Login page</a>
     {% endif %}
 </body>
 </html>

@@ -74,6 +74,8 @@ def booking_page():
     listings = repo.get()
     return render_template('booking.html', id=id, listings=listings)
 
+#----------------------------------------------#
+# Requests Page
 @app.route('/requests', methods=['GET'])
 def request_page():
     connection = get_flask_database_connection(app)
@@ -83,6 +85,7 @@ def request_page():
     sent_requests = req_repo.get_requests_I_made(id)
     recieved_requests = req_repo.get_recieved_requests(id)
     return render_template('requests.html', id=id , sent_requests=sent_requests, recieved_requests=recieved_requests)
+
 
 @app.route('/request_details/<int:id>', methods=['GET'])
 def request_details(id):
@@ -100,9 +103,12 @@ def update_request_confirmation(id):
     connection = get_flask_database_connection(app)
     req_repo = RequestRepository(connection)
     status = request.form['status']
+    user_id = request.args['id']
     req_repo.update_status(id, status)
-    pass
+    return redirect(f'/requests?id={user_id}')
 
+#----------------------------------------------#
+# Listings
 @app.route('/listing/<int:id>', methods=['POST'])
 def submit_request(id):
     connection = get_flask_database_connection(app)
