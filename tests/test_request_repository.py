@@ -72,7 +72,7 @@ def test_date_available_for_listing_but_booked_other_listing(db_connection):
 def test_date_is_available_overlapped_start_end(db_connection):
     db_connection.seed('seeds/DatabaseTables.sql')
     repo = RequestRepository(db_connection)
-    is_available = repo.check_dates("2024-04-10", "2024-04-17", 3)
+    is_available = repo.check_dates("2024-03-21", "2024-03-24", 4)
     assert is_available == True
 
 #Test to check if a listing is available when no other requests have been made
